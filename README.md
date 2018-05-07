@@ -1,2 +1,2 @@
 # Radix-Converter
-Convert a number of any one radix to any other radix.
+Convert a number from one radix to another. Supports fractional numbers and radices 2 to 36.
