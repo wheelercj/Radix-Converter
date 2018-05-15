@@ -17,15 +17,16 @@ int main()
 		mantissa; // the fractional part of a number
 	const int arraySize = 50, // the number of digits or numerals of the mantissa and/or the whole part of a numerals-only number. Truncation occurs during calculations.
 		endMantissaDigits = 20, // the number of mantissa digits that will be printed. Truncation occurs after calculations.
-		maxNormalBase = 36; // the greatest base that can be printed in non-numerals-only form.
+		maxStandardBase = 36; // the greatest base the numbers of which can be printed in standard form.
 	int startBase,
 		endBase,
 		again;
 	bool negative;
 
-	cout << "\n Only use commas when entering a number in numerals-only form."
-		"\n Numbers of a base greater than " << maxNormalBase << " must be entered in numerals-only form, e.g."
-		"\n 5,24.30 (base 60) = 5 * 60^1 + 24 * 60^0 + 30 * 60^-1 (base 10) = 324.5 (base 10).";
+	cout << "\n Only use commas when entering a number in numerals-only form. Numbers of a"
+		"\n base greater than " << maxStandardBase << " must be entered in numerals-only form, e.g."
+		"\n 5,24.30 (base 60) = 5 * 60^1 + 24 * 60^0 + 30 * 60^-1 (base 10) "
+		"\n\t\t\t\t\t\t = 324.5 (base 10).\n";
 
 	while (true)
 	{
@@ -33,12 +34,12 @@ int main()
 		{
 			cout << "\n Starting base: ";
 			cin >> startBase;
-			cout << " Ending base: ";
+			cout << " Target base: ";
 			cin >> endBase;
 
-			if (startBase < 2 || endBase < 2 || cin.fail())
+			if (startBase < 1 || endBase < 1 || cin.fail())
 			{
-				cout << "\n Invalid base entered. Please enter the bases in number form.\n";
+				cout << "\n Invalid base entered. Please enter the bases as numbers.\n";
 				cin.ignore(numeric_limits<int>::max(), '\n');
 				cin.clear();
 			}
@@ -52,7 +53,7 @@ int main()
 			int numerals[arraySize] = { 0 },
 				mantissaNumerals[arraySize] = { 0 };
 			unsigned long long tempNum = 0;
-			bool approximate = false,
+			bool approx = false,
 				numeralsOnlyStart = false,
 				numeralsOnlyEnd = false;
 
@@ -65,10 +66,6 @@ int main()
 				for (int i = 0; i < str.length(); i++)
 					if (str[i] == ' ')
 						str.erase(i, 1);
-
-				// remove any preceding positive sign
-				if (str[0] == '+')
-					str.erase(0, 1);
 
 				// negative?
 				if (str[0] == '-')
@@ -84,18 +81,19 @@ int main()
 					str.erase(0, 2);
 
 				// numerals-only form?
-				if (startBase > maxNormalBase)
+				if (startBase > maxStandardBase)
 					numeralsOnlyStart = true;
-				if (endBase > maxNormalBase)
+				if (endBase > maxStandardBase)
 					numeralsOnlyEnd = true;
-				for (int i = str.length() - 1; i >= 0; i--) // allow entering numbers of low bases in numerals-only form
+				for (int i = str.length() - 1; i >= 0; i--) // allow entering numbers of bases < maxNormalBase in numerals-only form
 				{
 					if (str[i] == ',')
 					{
 						numeralsOnlyStart = true;
 						break;
 					}
-				} // numerals-only numbers of a base < maxNormalBase with only one piece (no comma) will not be treated appropriately. Suggest typing a zero and comma before the number?
+				} // numerals-only numbers of bases < maxNormalBase with no commas will not be treated correctly.
+				  // Recommend typing a zero and a comma in front of the number.
 
 				// fractional?
 				for (int i = 0; i < str.length(); i++)
@@ -110,19 +108,14 @@ int main()
 				}
 
 				if (str.empty())
-					str.resize(1, '0');
+					str = '0';
 
 				if (numeralsOnlyStart) // make each piece a separate int
 				{
 					int j = 0;
+
 					for (int i = str.length() - 1; i >= 0; i--)
 					{
-						if ((str[i] > '9' || str[i] < '0') && str[i] != ',')
-						{
-							digit = str[i];
-							throw InvalidDigit();
-						}
-
 						if (str[i] == ',')
 						{
 							if (i < str.length() - 1)
@@ -132,6 +125,16 @@ int main()
 							if (j == arraySize)
 								throw Overflow();
 						}
+						else if (str[i] > '9' || str[i] < '0')
+						{
+							digit = str[i];
+							throw InvalidDigit();
+						}
+						else if (i == 0)
+						{
+							numerals[j] = stoi(str.substr(0, string::npos));
+							str.erase(0, string::npos);
+						}
 					}
 
 					j = 0;
@@ -140,16 +143,30 @@ int main()
 					{
 						if (mantissa[i] == ',')
 						{
-							numeralsOnlyStart = true;
-							mantissaNumerals[j] = stoi(mantissa.substr(0, i)); // what if i=0 ?
+							mantissaNumerals[j] = stoi(mantissa.substr(0, i)); // what if i = 0?
 							mantissa.erase(0, i + 1);
 							j++;
-						} // truncation?
+							if (j == arraySize)
+							{
+								approx = true;
+								break;
+							}
+						}
+						else if (mantissa[i] > '9' || mantissa[i] < '0')
+						{
+							digit = mantissa[i];
+							throw InvalidDigit();
+						}
+						else if (i == mantissa.length() - 1)
+						{
+							mantissaNumerals[j] = stoi(mantissa.substr(0, i + 1));
+							mantissa = "0"; // mantissa is not cleared here because the program would skip the mantissa conversion block in if(startBase != 10)
+						}
 					}
 				}
 
 				// convert non-decimal numbers to decimal
-				if (startBase != 10)
+				if (startBase != 10 || (numeralsOnlyStart && startBase == 10))
 				{
 					if (!numeralsOnlyStart)
 						for (int i = str.length() - 1; i >= 0; i--)
@@ -160,7 +177,7 @@ int main()
 
 					if (!mantissa.empty())
 					{
-						int tempArraySize,
+						int tempArraySize = 0,
 							numerators[arraySize],
 							denominators[arraySize],
 							lcd,
@@ -168,10 +185,10 @@ int main()
 
 						if (!numeralsOnlyStart)
 						{
-							if (mantissa.length() > arraySize) // truncate long numbers to prevent errors
+							if (mantissa.length() > arraySize)
 							{
 								mantissa.erase(arraySize, string::npos);
-								approximate = true;
+								approx = true;
 							}
 
 							// when converting a non-decimal mantissa to decimal, each digit becomes fractional. To avoid rounding
@@ -186,16 +203,21 @@ int main()
 						}
 						else
 						{
-							for (int i = 0; i < arraySize; i++)
-							{
-								numerators[i] = numerals[i];
-								denominators[i] = (int)pow(startBase, i + 1);
-							}
-
 							// find the number of elements used
 							for (int i = arraySize - 1; i >= 0; i--)
-								if (numerators[i] != 0)
+							{
+								if (mantissaNumerals[i] != 0)
+								{
 									tempArraySize = i + 1;
+									break;
+								}
+							}
+
+							for (int i = 0; i < tempArraySize; i++)
+							{
+								numerators[i] = mantissaNumerals[i];
+								denominators[i] = (int)pow(startBase, i + 1);
+							}
 						}
 
 						// the last denominator is the lowest common denominator of all the fractions
@@ -227,32 +249,42 @@ int main()
 					}
 				}
 				else
-					tempNum = stoi(str);
+					tempNum = stoull(str);
 
-				str.clear();
+				str = "";
 
-				// convert to non-decimal if desired
-				if (endBase != 10)
+				// convert to a non-decimal base if desired
+				if (endBase != 10 || (numeralsOnlyEnd && endBase == 10)) // currently there is no way for both the second and third conditions to both be true
 				{
 					for (int i = 0; tempNum > 0; i++)
 					{
 						digit = tempNum % endBase;
 						tempNum /= endBase;
 
-						str.resize(i + 1);
-
-						if (digit > 9)
-							str[i] = digit + 'A' - 10;
+						if (!numeralsOnlyEnd)
+						{
+							str.resize(i + 1);
+							if (digit > 9)
+								str[i] = digit + 'A' - 10;
+							else
+								str[i] = digit + '0';
+						}
 						else
-							str[i] = digit + '0';
+						{
+							str.insert(0, ",");
+							str.insert(0, to_string(digit));
+						}
 					}
 
-					reverse(str.begin(), str.end());
+					if (!numeralsOnlyEnd)
+						reverse(str.begin(), str.end());
+					else
+						str.erase(str.length() - 1, 1); // erase the trailing comma
 
 					if (!mantissa.empty())
 					{
 						string tempMantissa = mantissa;
-						mantissa.clear();
+						mantissa = "";
 
 						for (int i = 0; !zeroString(tempMantissa); i++)
 						{
@@ -264,9 +296,8 @@ int main()
 
 								if (digit > 9)
 								{
-									carry = digit;
+									carry = digit / 10;
 									digit %= 10;
-									carry /= 10;
 								}
 								else
 									carry = 0;
@@ -274,20 +305,31 @@ int main()
 								tempMantissa[j] = digit + '0';
 							}
 
-							mantissa.resize(i + 1);
+							if (!numeralsOnlyEnd)
+							{
+								mantissa.resize(i + 1);
 
-							if (carry > 9)
-								mantissa[i] = carry + 'A' - 10;
+								if (carry > 9)
+									mantissa[i] = carry + 'A' - 10;
+								else
+									mantissa[i] = carry + '0';
+							}
 							else
-								mantissa[i] = carry + '0';
+							{
+								mantissa.append(to_string(carry));
+								mantissa.append(",");
+							}
 
 							// a number that is rational in one base can be irrational in another, so truncate long numbers
 							if (i == endMantissaDigits && !zeroString(tempMantissa))
 							{
-								approximate = true;
+								approx = true;
 								break;
 							}
 						}
+
+						if (numeralsOnlyEnd)
+							mantissa.erase(mantissa.length() - 1, 1); // erase the trailing comma
 					}
 				}
 				else
@@ -296,22 +338,22 @@ int main()
 					if (mantissa.length() >= endMantissaDigits)
 					{
 						mantissa.erase(endMantissaDigits, string::npos);
-						approximate = true;
+						approx = true;
 					}
 				}
 
+				if (str.empty())
+					str = "0";
 				if (negative)
 					str.insert(0, "-");
 
-				if (endBase <= maxNormalBase)
-				{
-					cout << "\n  = " << str;
-					if (!mantissa.empty())
-						cout << '.' << mantissa;
-					cout << " (base " << endBase << ')';
-					if (approximate)
-						cout << " approx.";
-				}
+				// print the result
+				cout << "\n  = " << str;
+				if (!mantissa.empty())
+					cout << '.' << mantissa;
+				cout << " (base " << endBase << ')';
+				if (approx)
+					cout << " approx.";
 			}
 			catch (InvalidDigit)
 			{
@@ -321,10 +363,6 @@ int main()
 			{
 				cout << "\n\n ERROR: Overflow.";
 			}
-			/*catch (...)
-			{
-				cout << "\n\n ERROR \n ";
-			}*/
 
 			do
 			{
@@ -350,7 +388,7 @@ int convertCharToInt(char ch, int startBase)
 	else
 		digit -= '0';
 
-	if (digit >= startBase)
+	if (digit >= startBase && startBase != 1)
 		throw InvalidDigit();
 
 	return digit;
