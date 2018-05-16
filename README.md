@@ -20,7 +20,7 @@ To write a number in numerals-only notation, simply write commas between each of
 
 Unlike standard notation, numerals-only notation is not limited by the number of symbols that can be typed.
 
-As another example, let's say you want to convert 5 hours, 48 minutes, and 30 seconds into minutes. You can select base 60 as the starting base, base 10 as the target base, and enter 5,48.30 as the starting number. The program then considers 5, 48, and 30 each be individual digits in the conversion calculation:
+As another example, let's say you want to convert 5 hours, 48 minutes, and 30 seconds into minutes. You can select base 60 as the starting base, base 10 as the target base, and enter 5,48.30 as the starting number. The program then considers 5, 48, and 30 each as individual digits in the conversion calculation:
 
 ![Numerals-only notation base 60 example](docs/numeralsOnlyNotationEx2.png)
 
