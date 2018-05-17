@@ -3,7 +3,7 @@ Convert a number from one radix (base) to another.
 
 ## Supports:
 - bases 1 to 36 in standard notation
-- bases 1 and above in numerals-only notation (up to an unknown, but very high base)
+- bases 1 and above in [numerals-only notation](https://github.com/wheelercj/Radix-Converter/blob/master/README.md#what-is-numerals-only-notation) (up to an unknown, but very high base)
 - fractional numbers
 - negative numbers
 
