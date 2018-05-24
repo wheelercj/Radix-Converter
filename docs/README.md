@@ -2,13 +2,13 @@
 Converts a number from one radix (base) to another.
 
 ## Features:
-- support for bases 1 to 36 in standard notation
+- support for bases 1 to 62 in standard notation
 - support for bases 1 and above in [numerals-only notation](https://github.com/wheelercj/Radix-Converter/tree/master/docs#what-is-numerals-only-notation) (up to an unknown, but very high base)
 - support for fractional numbers
 - a simple interface: just enter the starting base, target base, and starting number
-- precise approximations when necessary, labelled "approx"
+- precise approximations when necessary, with adjustable precision
 
-For more information on bases and how each one can be helpful: https://en.wikipedia.org/wiki/List_of_numeral_systems#Standard_positional_numeral_systems
+More information on bases and how each one can be helpful: https://en.wikipedia.org/wiki/List_of_numeral_systems#Standard_positional_numeral_systems
 
 ## What is numerals-only notation?
 Numerals-only notation is a system for representing numbers of any base using only numerals (0-9), as opposed to also using letters such as for hexadecimal (base 16), which normally uses A for 10, B for 11, etc. up to F for 15.
