@@ -30,8 +30,9 @@ int main()
 	int endDigitCount = 20, // the greatest number of digits that can be printed in the result. Truncation occurs after conversion.
 		maxStandardBase = 62; // the greatest base the numbers of which can be represented in standard form.
 
-	cout << "\n Only use commas when entering a number in numerals-only form. Numbers of a"
-		"\n base greater than " << maxStandardBase << " must be entered in numerals-only form.\n";
+	cout << "\n Only use commas when entering a number in numerals-only form."
+		"\n Numbers of a base greater than " << maxStandardBase << " must be entered in numerals-only form."
+		"\n Uppercase letter values: 10 to 35. Lowercase letter values: 36 to 61. \n";
 
 	while (true)
 	{
