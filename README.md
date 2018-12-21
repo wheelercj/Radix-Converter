@@ -26,5 +26,5 @@ As another example, let's say you want to convert 5 hours, 48 minutes, and 30 se
 ![Numerals-only notation base 60 example](docs/numeralsOnlyNotationExample2.png)
 
 ## Tips:
-- Unary (base 1) allows all standard form digits to be used in the starting number
+- Unary (base 1) allows any digit to be used in the starting number
 - to enter a numerals-only number of a base that can be represented in standard form, but is too short to include commas, enter an extra comma at the end or beginning of the number (the program detects numerals-only form if the starting base is too high for standard form, or if there is at least one comma).
