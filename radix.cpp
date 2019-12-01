@@ -1,6 +1,6 @@
 #include "radix.h"
 #include <iostream>
-#include <boost/lexical_cast.hpp>
+#include <boost/lexical_cast.hpp> // Boost license: https://www.boost.org/LICENSE_1_0.txt
 #include <numeric> // accumulate
 
 // Numerals-only form: a number of a base greater than decimal may be represented with only
