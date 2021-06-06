@@ -5,6 +5,7 @@ Converts a number from one radix (base) to another.
 - supports all bases 1 and above (up to a very high, but unknown base)
 - supports fractional numbers
 - allows the user to choose the symbol that represents each value
+- supports numbers of mixed bases (each digit of a number can be in a different base)
 - supports both standard form and [numerals-only form](https://github.com/wheelercj/Radix-Converter/tree/master#what-is-numerals-only-form)
 - a simple interface: just enter the starting base, target base, and starting number
 - precise approximations when necessary, with adjustable precision
