@@ -2,6 +2,8 @@
 #include <iostream>
 #include <sstream>  // stringstream
 #include <numeric>  // accumulate
+#include <math.h>  // pow
+#include <algorithm>  // reverse
 
 // Numerals-only form: a number of a base greater than decimal may be represented with only
 // numerals (0 - 9) by placing a comma between each digit so that each digit can be multiple
