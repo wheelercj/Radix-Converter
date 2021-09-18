@@ -1,0 +1,7 @@
+*.exe
+*.sln
+*.vcxproj
+*.filters
+*.user
+Debug
+enc_temp_folder
