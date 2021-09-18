@@ -1,4 +1,6 @@
 # Radix-Converter
+[![Run on Replit](https://repl.it/badge/github/wheelercj/Radix-Converter)](https://replit.com/@wheelercj/Radix-Converter)
+
 Converts a number from one radix (base) to another.
 
 ## Features:
