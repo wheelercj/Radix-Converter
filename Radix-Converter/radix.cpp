@@ -13,7 +13,7 @@
 // In this program, bases must be entered in decimal, and if a number has digits of varying
 // bases, those bases must be entered in numerals-only form.
 
-std::string standardDigits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+std::string standardDigits = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 // const std::string reservedDigits = ".,- ";
 
 void setStandard(std::string newDigits)
