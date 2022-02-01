@@ -328,6 +328,7 @@ void Fraction::fromDecimal(std::vector<int> newBase)
 	// now holds the number in the target base.
 
 	std::vector<Digit> newFraction;
+	int tempNewBase;
 
 	for (int i = 0; size(); i++)
 	{
@@ -348,7 +349,11 @@ void Fraction::fromDecimal(std::vector<int> newBase)
 			part[j].set(digit);
 		}
 
-		newFraction.push_back(Digit(i + 1, newBase[i]));
+		if (i < newBase.size())
+			tempNewBase = newBase[i];
+		newFraction.push_back(Digit(carry, tempNewBase));
+		if (newFraction.size() >= 100)  // TODO: find a way to use the precision variable in Number?
+			break;
 	}
 
 	part.clear();
