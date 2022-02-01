@@ -3,17 +3,17 @@
 
 Convert a number from one radix (base) to another.
 
-For example, the decimal number 90 can be converted to hexadecimal:
+For example, the decimal number 90 can be converted to hexadecimal:  
 90 (base 10) = 5a (base 16)
 
-or other bases:
-90 (base 10) = 132 (base 8)
+or other bases:  
+90 (base 10) = 132 (base 8)  
 90 (base 10) = 1011010 (base 2)
 
-or we can convert numbers that have multiple digits per digit (by separating the digits with commas):
+or we can convert numbers that have multiple digits per digit (by separating the digits with commas):  
 35,12 (base 64) = 1qk (base 36)
 
-or negative fractional numbers of mixed bases:
+or negative fractional numbers of mixed bases:  
 -87eg4.c71 (base 10,10,16,20,5.16,10,10) = -90908.821 (base 10)
 
 ## Features:
