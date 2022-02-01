@@ -16,9 +16,9 @@ Information on the various bases and how each one can be helpful:
 https://en.wikipedia.org/wiki/List_of_numeral_systems#Standard_positional_numeral_systems
 
 ## What is numerals-only form?
-Numerals-only form is a system for representing numbers of any base using only numerals (0-9), as opposed to also using letters such as for hexadecimal (base 16), which normally uses A for 10, B for 11, etc. up to F for 15.
+Numerals-only form is a system for representing numbers of any base using only numerals (0-9), as opposed to also using letters such as for hexadecimal (base 16), which normally uses a for 10, b for 11, etc. up to f for 15.
 
-To write a number in numerals-only form, simply write commas between each of the digits, then replace digits that are not numerals with their numeral value. For example, the hexadecimal number 7A3F2 in standard form can be written as 7,10,3,15,2 in numerals-only form.
+To write a number in numerals-only form, simply write commas between each of the digits, then replace digits that are not numerals with their numeral value. For example, the hexadecimal number 7a3f2 in standard form can be written as 7,10,3,15,2 in numerals-only form.
 
 ![Numerals-only notation example](docs/numeralsOnlyNotationExample.png)
 
@@ -29,5 +29,6 @@ As another example, let's say you want to convert 5 hours, 48 minutes, and 30 se
 ![Numerals-only notation base 60 example](docs/numeralsOnlyNotationExample2.png)
 
 ## Tips:
+- Lowercase letters have lower values than uppercase letters. Here are the digits available by default, ordered by increasing value: 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
 - Unary (base 1) allows any digit to be used in the starting number
-- to enter a numerals-only number of a base that can be represented in standard form, but is too short to include commas, enter an extra comma at the end or beginning of the number (the program detects numerals-only form if the starting base is too high for standard form, or if there is at least one comma).
+- to enter a numerals-only number of a base that can be represented in standard form but is too short to include commas, enter an extra comma at the end or beginning of the number (the program detects numerals-only form if the starting base is too high for standard form, or if there is at least one comma)
