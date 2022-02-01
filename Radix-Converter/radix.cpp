@@ -64,7 +64,10 @@ Vectors splitNumeralsString(const std::string str) // copy each comma-separated 
 
 	if (i == str.size())
 	{
-		vects.whole.push_back(stoi(str.substr(j, i - j)));
+		std::string ss = str.substr(j, i - j);
+		if (ss[0] == ',')
+			ss = ss.substr(1);
+		vects.whole.push_back(stoi(ss));
 		return vects;
 	}
 
@@ -73,8 +76,11 @@ Vectors splitNumeralsString(const std::string str) // copy each comma-separated 
 
 	if (str[i] == '.')
 		throw "Error: too many periods entered.";
+	std::string ss = str.substr(j, i - j);
+	if (ss[0] == ',')
+		ss = ss.substr(1);
 	if (i == str.size())
-		vects.fraction.push_back(stoi(str.substr(j, i - j)));
+		vects.fraction.push_back(stoi(ss));
 	return vects;
 }
 
@@ -84,7 +90,9 @@ void strToInts(const std::string str, std::vector<int>& vect, int& i, int& j) //
 	{
 		if (str[i] == ',')
 		{
-			std::string ss = str.substr(j + 1, i - j);
+			std::string ss = str.substr(j, i - j);
+			if (ss[0] == ',')
+				ss = ss.substr(1);
 			vect.push_back(stoi(ss));
 			j = i;
 		}
@@ -450,8 +458,6 @@ void Number::set(std::string num, std::string base)
 		bases.fraction.push_back(bases.whole[0]);
 	else if (!bases.whole.size())
 		bases.whole.push_back(bases.fraction[0]);
-	else
-		throw "Error: invalid base entered.";
 
 	// numerals-only form?
 	numeralsOnly = detectNumerals(num, bases);
