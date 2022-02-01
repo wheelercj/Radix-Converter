@@ -513,15 +513,53 @@ std::string Number::toString()
 
 	if (negative)
 		temp += '-';
+
+	// determine whether the result must be in numerals-only form
+	numeralsOnly = false;
+	for (int i = 0; i < whole.size(); i++)
+	{
+		if (whole[i].getBase() >= standardDigits.size())
+		{
+			numeralsOnly = true;
+			break;
+		}
+	}
+	if (!numeralsOnly)
+	{
+		for (int i = 0; i < fraction.size(); i++)
+		{
+			if (fraction[i].getBase() >= standardDigits.size())
+			{
+				numeralsOnly = true;
+				break;
+			}
+		}
+	}
 	
 	// convert the digits to a string
-	for (int i = 0; i < whole.size(); i++)
-		temp += standardDigits[whole[i].get()];
-	if (fraction.size())
+	if (!numeralsOnly)
 	{
-		temp += '.';
-		for (int i = 0; i < fraction.size(); i++)
-			temp += standardDigits[fraction[i].get()];
+		for (int i = 0; i < whole.size(); i++)
+			temp += standardDigits[whole[i].get()];
+		if (fraction.size())
+		{
+			temp += '.';
+			for (int i = 0; i < fraction.size(); i++)
+				temp += standardDigits[fraction[i].get()];
+		}
+	}
+	else
+	{
+		for (int i = 0; i < whole.size(); i++)
+			temp += std::to_string(whole[i].get()) + ',';
+		temp.pop_back();
+		if (fraction.size())
+		{
+			temp += '.';
+			for (int i = 0; i < fraction.size(); i++)
+				temp += std::to_string(fraction[i].get()) + ',';
+			temp.pop_back();
+		}
 	}
 
 	return temp;
