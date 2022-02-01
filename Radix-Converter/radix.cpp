@@ -328,7 +328,7 @@ void Fraction::fromDecimal(std::vector<int> newBase)
 	// now holds the number in the target base.
 
 	std::vector<Digit> newFraction;
-	int tempNewBase;
+	int tempNewBase = newBase[0];
 
 	for (int i = 0; size(); i++)
 	{
@@ -336,7 +336,9 @@ void Fraction::fromDecimal(std::vector<int> newBase)
 
 		for (int j = size() - 1; j >= 0; j--)
 		{
-			int digit = part[j].get() * newBase[j] + carry;
+			if (j < newBase.size())
+				tempNewBase = newBase[j];
+			int digit = part[j].get() * tempNewBase + carry;
 
 			if (digit > 9)
 			{
