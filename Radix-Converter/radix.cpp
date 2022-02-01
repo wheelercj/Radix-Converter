@@ -84,7 +84,8 @@ void strToInts(const std::string str, std::vector<int>& vect, int& i, int& j) //
 	{
 		if (str[i] == ',')
 		{
-			vect.push_back(stoi(str.substr(j, i - j)));
+			std::string ss = str.substr(j + 1, i - j);
+			vect.push_back(stoi(ss));
 			j = i;
 		}
 	}
@@ -145,7 +146,7 @@ int Vectors::size()
 int Vectors::operator[](int index)
 {
 	if (index >= whole.size())
-		return fraction[index - whole.size() - 1];
+		return fraction[index - whole.size()];
 	return whole[index];
 }
 
