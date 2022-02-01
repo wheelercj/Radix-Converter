@@ -298,7 +298,7 @@ void Fraction::toDecimal()
 	// find the lcd, which might not be the last denominator in a mixed-base number
 	int lcd;
 	if (denominators.size() > 1)
-		lcd = std::accumulate(denominators.begin(), denominators.end(), 0, lcm);
+		lcd = std::accumulate(denominators.begin(), denominators.end(), 1, lcm);
 	else
 		lcd = denominators[0];
 
