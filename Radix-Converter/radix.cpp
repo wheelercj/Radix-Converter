@@ -52,9 +52,9 @@ std::string changeBase(std::string startNum, std::string startBase, std::string 
 			result = applyPrecisionSetting(result);
 			return result;
 		}
-		catch (const char* error)
+		catch (const std::exception& exception)
 		{
-			return error;
+			return exception.what();
 		}
 		catch (std::bad_alloc)
 		{
@@ -69,7 +69,11 @@ int charToInt(char ch)
 	if (pos != std::string::npos)
 		return pos;
 	else
-		throw "Error: non-standard digit used: " + ch;
+	{
+		std::string message = "Error: non-standard digit used: ";
+		message += ch;
+		throw std::runtime_error(message);
+	}
 }
 
 Vectors splitNumeralsString(const std::string str) // copy each comma-separated set of numerals into separate ints
@@ -93,7 +97,7 @@ Vectors splitNumeralsString(const std::string str) // copy each comma-separated 
 	strToInts(str, vects.fraction, i, j);
 
 	if (str[i] == '.')
-		throw "Error: too many periods entered.";
+		throw std::runtime_error("Error: too many periods entered.");
 	std::string ss = str.substr(j, i - j);
 	if (ss[0] == ',')
 		ss = ss.substr(1);
@@ -136,7 +140,7 @@ Vectors splitString(std::string str)
 	for (++i; i < str.size() && str[i] != '.'; i++)
 		vects.fraction.push_back(charToInt(str[i]));
 	if (i < str.size() && str[i] == '.')
-		throw "Error: too many periods entered.";
+		throw std::runtime_error("Error: too many periods entered.");
 
 	return vects;
 }
@@ -415,7 +419,7 @@ Digit Number::operator[](int index)
 	else if (index < wholeSize + fraction.size())
 		return fraction[index - wholeSize - 1];
 	else
-		throw "Error: subscript out of range.";
+		throw std::out_of_range("Error: subscript out of range.");
 }
 
 bool Number::detectNumerals(std::string startNum, Vectors bases)
@@ -468,7 +472,7 @@ void Number::set(std::string num, std::string base)
 	for (int i = 0; i < bases.size(); i++)
 	{
 		if (bases[i] < 1)
-			throw "Error: invalid base entered.";
+			throw std::runtime_error("Error: invalid base entered.");
 	}
 
 	if (!bases.fraction.size())
@@ -507,7 +511,7 @@ void Number::changeBase(std::string newBase)
 	for (int i = 0; i < newBases.size(); i++)
 	{
 		if (newBases[i] < 1)
-			throw "Error: invalid base entered.";
+			throw std::runtime_error("Error: invalid base entered.");
 	}
 
 	// if one of the base vectors is empty, give it the closest digit from the other vector
