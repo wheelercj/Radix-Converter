@@ -111,7 +111,8 @@ void strToInts(const std::string str, std::vector<int>& vect, int& i, int& j) //
 			std::string ss = str.substr(j, i - j);
 			if (ss[0] == ',')
 				ss = ss.substr(1);
-			vect.push_back(stoi(ss));
+			if (ss.size())
+				vect.push_back(stoi(ss));
 			j = i;
 		}
 	}
