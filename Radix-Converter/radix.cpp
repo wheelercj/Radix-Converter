@@ -56,10 +56,6 @@ std::string changeBase(std::string startNum, std::string startBase, std::string 
 		{
 			return exception.what();
 		}
-		catch (std::bad_alloc)
-		{
-			return "Error: insufficient memory.";
-		}
 	}
 }
 
