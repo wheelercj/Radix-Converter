@@ -8,7 +8,7 @@ namespace settings
 {
 	static std::string standardDigits = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	const std::string RESERVED_DIGITS = ".,- ";
-	static int resultPrecision = 100;
+	static int resultPrecision = 75;
 
 	void setStandardDigits(std::string);
 	void setResultPrecision(int);
