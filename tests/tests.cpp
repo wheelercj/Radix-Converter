@@ -38,7 +38,7 @@ namespace tests
 
         TEST_METHOD(FractionalDecimalToHexadecimal)
         {
-            equal("10", "16", "3315.3", "cf3.4ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc");
+            equal("10", "16", "3315.3", "cf3.4cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc");
         }
 
         TEST_METHOD(FractionalOctalToDecimal)
@@ -63,7 +63,7 @@ namespace tests
 
         TEST_METHOD(DecimalToBase7)
         {
-            equal("10", "7", "513.03", "1332.0132013201320132013201320132013201320132013201320132013201320132013201320132013201320132013201320132");
+            equal("10", "7", "513.03", "1332.013201320132013201320132013201320132013201320132013201320132013201320132013");
         }
 
         TEST_METHOD(MixedTimeNumeralsToMinutes)
@@ -104,6 +104,11 @@ namespace tests
         TEST_METHOD(TooManyPeriods)
         {
             equal("10", "11", "5.5.5", "Error: too many periods entered.");
+        }
+
+        TEST_METHOD(NonStandardDigitUsed)
+        {
+            equal("5", "7", "32$4", "Error: non-standard digit used: $");
         }
     };
 }
