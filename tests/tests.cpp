@@ -110,5 +110,15 @@ namespace tests
         {
             equal("5", "7", "32$4", "Error: non-standard digit used: $");
         }
+
+        TEST_METHOD(UnaryToDecimal)
+        {
+            equal("1", "10", "37a", "20");
+        }
+
+        TEST_METHOD(NumeralsHexadecimalToHexadecimal)
+        {
+            equal("16", "16", ",12.15", "c.f");
+        }
     };
 }
