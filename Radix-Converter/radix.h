@@ -4,7 +4,17 @@
 #include <string>
 #include <vector>
 
-void setStandard(std::string);
+namespace settings
+{
+	static std::string standardDigits = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	const std::string RESERVED_DIGITS = ".,- ";
+	static int resultPrecision = 100;
+
+	void setStandardDigits(std::string);
+	void setResultPrecision(int);
+	std::string getStandardDigits();
+	int getResultPrecision();
+}
 
 struct Vectors
 {
@@ -73,7 +83,6 @@ class Number
 private:
 	Whole whole;
 	Fraction fraction;
-	int resultPrecision;
 	bool negative;
 	bool numeralsOnly;
 	Digit operator[](int); // goes through the Number's Digits in reading order
@@ -84,7 +93,6 @@ public:
 	int size();
 	void changeBase(std::string);
 	std::string toString();
-	void setPrecision(int);
 };
 
 #endif // !RADIX_H

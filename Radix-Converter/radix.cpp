@@ -5,20 +5,37 @@
 #include <math.h>  // pow
 #include <algorithm>  // reverse
 
-// Numerals-only form: a number of a base greater than decimal may be represented with only
-// numerals (0 - 9) by placing a comma between each digit so that each digit can be multiple
-// numerals long. For example, the hexadecimal number 7A3F2 in standard form can be written
-// as 7,10,3,15,2 in numerals-only form.
-
-// In this program, bases must be entered in decimal, and if a number has digits of varying
-// bases, those bases must be entered in numerals-only form.
-
-std::string standardDigits = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-// const std::string reservedDigits = ".,- ";
-
-void setStandard(std::string newDigits)
+void settings::setStandardDigits(std::string newStandardDigits)
 {
-	standardDigits = newDigits;
+	settings::standardDigits = newStandardDigits;
+}
+
+void settings::setResultPrecision(int newResultPrecision)
+{
+	settings::resultPrecision = newResultPrecision;
+}
+
+std::string settings::getStandardDigits()
+{
+	return settings::standardDigits;
+}
+
+int settings::getResultPrecision()
+{
+	return settings::resultPrecision;
+}
+
+std::string applyPrecisionSetting(std::string result)
+{
+	int i = 0;
+	for (; i < result.size() && result[i] != '.'; i++);
+	if (result[i] != '.')
+		return result;
+	i++;
+	std::string fraction = result.substr(i);
+	if (fraction.size() > settings::resultPrecision)
+		result = result.substr(0, i) + fraction.substr(0, settings::resultPrecision);
+	return result;
 }
 
 std::string changeBase(std::string startNum, std::string startBase, std::string endBase)
@@ -31,7 +48,9 @@ std::string changeBase(std::string startNum, std::string startBase, std::string 
 		{
 			number.set(startNum, startBase);
 			number.changeBase(endBase);
-			return number.toString();
+			std::string result = number.toString();
+			result = applyPrecisionSetting(result);
+			return result;
 		}
 		catch (const char* error)
 		{
@@ -46,8 +65,7 @@ std::string changeBase(std::string startNum, std::string startBase, std::string 
 
 int charToInt(char ch)
 {
-	std::size_t pos = standardDigits.find(ch);
-
+	std::size_t pos = settings::standardDigits.find(ch);
 	if (pos != std::string::npos)
 		return pos;
 	else
@@ -363,7 +381,7 @@ void Fraction::fromDecimal(std::vector<int> newBase)
 		if (i < newBase.size())
 			tempNewBase = newBase[i];
 		newFraction.push_back(Digit(carry, tempNewBase));
-		if (newFraction.size() >= 100)  // TODO: find a way to use the precision variable in Number?
+		if (newFraction.size() >= settings::resultPrecision)
 			break;
 	}
 
@@ -412,7 +430,7 @@ bool Number::detectNumerals(std::string startNum, Vectors bases)
 	// numerals-only form indicated by a base digit of a value greater than the max standard value
 	for (int i = 0; i < bases.size(); i++)
 	{
-		if (bases[i] > standardDigits.length())
+		if (bases[i] > settings::standardDigits.length())
 			return true;
 	}
 
@@ -421,7 +439,6 @@ bool Number::detectNumerals(std::string startNum, Vectors bases)
 
 Number::Number()
 {
-	resultPrecision = 20;
 	negative = false;
 	numeralsOnly = false;
 }
@@ -518,7 +535,7 @@ std::string Number::toString()
 	numeralsOnly = false;
 	for (int i = 0; i < whole.size(); i++)
 	{
-		if (whole[i].getBase() >= standardDigits.size())
+		if (whole[i].getBase() >= settings::standardDigits.size())
 		{
 			numeralsOnly = true;
 			break;
@@ -528,7 +545,7 @@ std::string Number::toString()
 	{
 		for (int i = 0; i < fraction.size(); i++)
 		{
-			if (fraction[i].getBase() >= standardDigits.size())
+			if (fraction[i].getBase() >= settings::standardDigits.size())
 			{
 				numeralsOnly = true;
 				break;
@@ -540,12 +557,12 @@ std::string Number::toString()
 	if (!numeralsOnly)
 	{
 		for (int i = 0; i < whole.size(); i++)
-			temp += standardDigits[whole[i].get()];
+			temp += settings::standardDigits[whole[i].get()];
 		if (fraction.size())
 		{
 			temp += '.';
 			for (int i = 0; i < fraction.size(); i++)
-				temp += standardDigits[fraction[i].get()];
+				temp += settings::standardDigits[fraction[i].get()];
 		}
 	}
 	else
@@ -563,9 +580,4 @@ std::string Number::toString()
 	}
 
 	return temp;
-}
-
-void Number::setPrecision(int digitCount)
-{
-	resultPrecision = digitCount;
 }
