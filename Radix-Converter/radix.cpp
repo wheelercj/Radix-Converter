@@ -376,7 +376,10 @@ void Fraction::fromDecimal(std::vector<int> newBase)
 			else
 				carry = 0;
 
-			part[j].set(digit);
+			if (digit)
+				part[j].set(digit);
+			else
+				part.pop_back();
 		}
 
 		if (i < newBase.size())
