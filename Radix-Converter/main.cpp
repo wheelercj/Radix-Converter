@@ -13,6 +13,7 @@ bool validStandardDigits(string input);
 bool isNumber(string input);
 void setStandardDigits();
 void setResultPrecision();
+void resetSettingsToDefaults();
 void loadSettings();
 void saveSettings();
 
@@ -78,7 +79,8 @@ void runSettingsMenu()
 		cout << "\n\n settings menu:"
 			<< "\n 1. change standard digits"
 			<< "\n 2. change result precision"
-			<< "\n 3. return"
+			<< "\n 3. reset settings to defaults"
+			<< "\n 4. return"
 			<< "\n > ";
 		getline(cin, input);
 		if (input == "1")
@@ -86,6 +88,8 @@ void runSettingsMenu()
 		else if (input == "2")
 			setResultPrecision();
 		else if (input == "3")
+			resetSettingsToDefaults();
+		else if (input == "4")
 			return;
 		saveSettings();
 	}
@@ -146,6 +150,12 @@ void setResultPrecision()
 		settings::setResultPrecision(std::stoi(input));
 	else
 		cout << "\n Error: the precision must be a whole number.";
+}
+
+void resetSettingsToDefaults()
+{
+	settings::setStandardDigits(settings::DEFAULT_STANDARD_DIGITS);
+	settings::setResultPrecision(settings::DEFAULT_RESULT_PRECISION);
 }
 
 void loadSettings()
