@@ -347,6 +347,18 @@ void Fraction::toDecimal()
 		part.push_back(Digit(vects.fraction[i], 10));
 }
 
+std::vector<Digit> removeTrailingZeros(std::vector<Digit> number)
+{
+	for (int i = number.size() - 1; i >= 0; i--)
+	{
+		if (number[i].get() != 0)
+			return number;
+		else
+			number.pop_back();
+	}
+	return number;
+}
+
 void Fraction::fromDecimal(std::vector<int> newBase)
 {
 	// For each digit of the fractional part from right to left, multiply by the target base and add the carry from the
@@ -376,10 +388,7 @@ void Fraction::fromDecimal(std::vector<int> newBase)
 			else
 				carry = 0;
 
-			if (digit)
-				part[j].set(digit);
-			else
-				part.pop_back();
+			part[j].set(digit);
 		}
 
 		if (i < newBase.size())
@@ -389,6 +398,7 @@ void Fraction::fromDecimal(std::vector<int> newBase)
 			break;
 	}
 
+	newFraction = removeTrailingZeros(newFraction);
 	part.clear();
 	part = newFraction;
 }
