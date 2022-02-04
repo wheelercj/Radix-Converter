@@ -116,9 +116,14 @@ namespace tests
             equal("1", "10", "37a", "20");
         }
 
-        TEST_METHOD(NumeralsHexadecimalToHexadecimal)
+        TEST_METHOD(NumeralsWithLeadingComma)
         {
             equal("16", "16", ",12.15", "c.f");
+        }
+
+        TEST_METHOD(NumeralsWithTrailingComma)
+        {
+            equal("16", "16", "12.15,", "c.f");
         }
     };
 }
