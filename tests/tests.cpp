@@ -2,6 +2,7 @@
 #include "CppUnitTest.h"
 #include "../Radix-Converter/radix.h"
 #include "../Radix-Converter/radix.cpp"
+#include "../Radix-Converter/main.cpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -12,7 +13,7 @@ namespace tests
         Assert::AreEqual(ToString(endNum), ToString(changeBase(startNum, startBase, endBase)));
     }
 
-    TEST_CLASS(tests)
+    TEST_CLASS(converter)
     {
     public:
 
@@ -124,6 +125,47 @@ namespace tests
         TEST_METHOD(NumeralsWithTrailingComma)
         {
             equal("16", "16", "12.15,", "c.f");
+        }
+    };
+
+    TEST_CLASS(main)
+    {
+    public:
+        
+        TEST_METHOD(RemoveNoSpaces)
+        {
+            std::string actual = "nospaces";
+            removeSpaces(actual);
+            std::string expected = "nospaces";
+            Assert::AreEqual(expected, actual);
+        }
+
+        TEST_METHOD(RemoveSpaces)
+        {
+            std::string actual = " s p a c e s ";
+            removeSpaces(actual);
+            std::string expected = "spaces";
+            Assert::AreEqual(expected, actual);
+        }
+
+        TEST_METHOD(IsInteger)
+        {
+            Assert::IsTrue(isInteger("387398"));
+        }
+
+        TEST_METHOD(IsNotInteger)
+        {
+            Assert::IsFalse(isInteger("387.398"));
+        }
+
+        TEST_METHOD(ValidStandardDigits)
+        {
+            Assert::IsTrue(validStandardDigits("9876543210"));
+        }
+
+        TEST_METHOD(InvalidStandardDigits)
+        {
+            Assert::IsFalse(validStandardDigits("01234567890123456789"));
         }
     };
 }
