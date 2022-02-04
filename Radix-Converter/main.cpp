@@ -10,12 +10,13 @@ using std::ofstream;
 void runConverter();
 void runSettingsMenu();
 bool validStandardDigits(string input);
-bool isNumber(string input);
+bool isInteger(string input);
 void setStandardDigits();
 void setResultPrecision();
 void resetSettingsToDefaults();
 void loadSettings();
 void saveSettings();
+bool removeSpaces(std::string& input);
 
 int main()
 {
@@ -32,6 +33,7 @@ int main()
 			<< "\n 3. exit"
 			<< "\n > ";
 		getline(cin, input);
+		removeSpaces(input);
 		if (input == "1")
 			runConverter();
 		else if (input == "2")
@@ -50,15 +52,18 @@ void runConverter()
 	{
 		cout << "\n Enter the starting number: ";
 		getline(cin, number);
+		removeSpaces(number);
 		if (number.empty())
 			return;
 		do {
 			cout << "\n Enter the starting base: ";
 			getline(cin, startBase);
+			removeSpaces(startBase);
 		} while (startBase.empty());
 		do {
 			cout << "\n Enter the target base: ";
 			getline(cin, endBase);
+			removeSpaces(endBase);
 		} while (endBase.empty());
 
 		number = changeBase(number, startBase, endBase);
@@ -83,6 +88,7 @@ void runSettingsMenu()
 			<< "\n 4. return"
 			<< "\n > ";
 		getline(cin, input);
+		removeSpaces(input);
 		if (input == "1")
 			setStandardDigits();
 		else if (input == "2")
@@ -120,7 +126,7 @@ bool validStandardDigits(string input)
 	return true;
 }
 
-bool isNumber(string input)
+bool isInteger(string input)
 {
 	if (input.empty())
 		return false;
@@ -137,6 +143,8 @@ void setStandardDigits()
 	string input;
 	cout << "\n Enter the new standard digits: ";
 	getline(cin, input);
+	if (removeSpaces(input))
+		cout << "\n Warning: space(s) removed from the standard digits.";
 	if (validStandardDigits(input))
 		settings::setStandardDigits(input);
 }
@@ -146,7 +154,8 @@ void setResultPrecision()
 	string input;
 	cout << "\n Enter the new precision: ";
 	getline(cin, input);
-	if (isNumber(input))
+	removeSpaces(input);
+	if (isInteger(input))
 		settings::setResultPrecision(std::stoi(input));
 	else
 		cout << "\n Error: the precision must be a whole number.";
@@ -165,12 +174,16 @@ void loadSettings()
 	{
 		string input;
 		getline(file, input);
+		if (removeSpaces(input))
+			cout << "\n Warning: space(s) removed from the standard digits.";
 		if (validStandardDigits(input))
 			settings::setStandardDigits(input);
 		else
 			cout << "\n Settings file parsing error. Using default standard digits: " << settings::getStandardDigits();
+		
 		getline(file, input);
-		if (isNumber(input))
+		removeSpaces(input);
+		if (isInteger(input))
 			settings::setResultPrecision(stoi(input));
 		else
 			cout << "\n Settings file parsing error. Using default precision of " << settings::getResultPrecision();
@@ -184,4 +197,20 @@ void saveSettings()
 	file << settings::getStandardDigits() << std::endl
 		<< settings::getResultPrecision() << std::endl;
 	file.close();
+}
+
+bool removeSpaces(std::string& input)
+{
+	std::string output = "";
+	bool foundSpace = false;
+	for (char ch : input)
+	{
+		if (ch != ' ')
+			output += ch;
+		else
+			foundSpace = true;
+	}
+	if (foundSpace)
+		input = output;
+	return foundSpace;
 }
