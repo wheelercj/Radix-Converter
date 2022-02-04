@@ -8,7 +8,7 @@ For example, the decimal number 90 can be converted to hexadecimal:
 
 or other bases:  
 90 (base 10) = 132 (base 8)  
-90 (base 10) = 1011010 (base 2)
+132 (base 8) = 1011010 (base 2)
 
 or we can convert numbers that have multiple digits per digit (by separating the digits with commas):  
 35,12 (base 64) = 1qk (base 36)
