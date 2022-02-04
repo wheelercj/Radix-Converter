@@ -97,7 +97,7 @@ Vectors splitNumeralsString(const std::string str) // copy each comma-separated 
 	std::string ss = str.substr(j, i - j);
 	if (ss[0] == ',')
 		ss = ss.substr(1);
-	if (i == str.size())
+	if (i == str.size() && ss.size())
 		vects.fraction.push_back(stoi(ss));
 	return vects;
 }
