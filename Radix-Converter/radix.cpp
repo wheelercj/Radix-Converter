@@ -59,6 +59,29 @@ std::string changeBase(std::string startNum, std::string startBase, std::string 
 	}
 }
 
+bool isInteger(std::string input)
+{
+	if (input.empty())
+		return false;
+	for (char ch : input)
+	{
+		if (!std::isdigit(ch))
+			return false;
+	}
+	return true;
+}
+
+void assertInteger(std::string str)
+{
+	if (!isInteger(str))
+	{
+		std::string message = "Error: expected only numerals but received \"";
+		message += str;
+		message += "\"";
+		throw std::runtime_error(message);
+	}
+}
+
 int charToInt(char ch)
 {
 	std::size_t pos = settings::standardDigits.find(ch);
@@ -66,8 +89,9 @@ int charToInt(char ch)
 		return pos;
 	else
 	{
-		std::string message = "Error: non-standard digit used: ";
+		std::string message = "Error: non-standard digit used: \"";
 		message += ch;
+		message += "\"";
 		throw std::runtime_error(message);
 	}
 }
@@ -85,6 +109,7 @@ Vectors splitNumeralsString(const std::string str) // copy each comma-separated 
 		std::string ss = str.substr(j, i - j);
 		if (ss[0] == ',')
 			ss = ss.substr(1);
+		assertInteger(ss);
 		vects.whole.push_back(stoi(ss));
 		return vects;
 	}
@@ -98,7 +123,10 @@ Vectors splitNumeralsString(const std::string str) // copy each comma-separated 
 	if (ss[0] == ',')
 		ss = ss.substr(1);
 	if (i == str.size() && ss.size())
+	{
+		assertInteger(ss);
 		vects.fraction.push_back(stoi(ss));
+	}
 	return vects;
 }
 
@@ -112,7 +140,10 @@ void strToInts(const std::string str, std::vector<int>& vect, int& i, int& j) //
 			if (ss[0] == ',')
 				ss = ss.substr(1);
 			if (ss.size())
+			{
+				assertInteger(ss);
 				vect.push_back(stoi(ss));
+			}
 			j = i;
 		}
 	}
@@ -122,6 +153,7 @@ void strToInts(const std::string str, std::vector<int>& vect, int& i, int& j) //
 		std::string ss = str.substr(j, i - j);
 		if (ss[0] == ',')
 			ss = ss.substr(1);
+		assertInteger(ss);
 		int si = stoi(ss);
 		vect.push_back(si);
 		j = i + 1;

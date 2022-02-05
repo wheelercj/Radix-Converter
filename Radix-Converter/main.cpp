@@ -10,7 +10,6 @@ using std::ofstream;
 void runConverter();
 void runSettingsMenu();
 bool validStandardDigits(string input);
-bool isInteger(string input);
 void setStandardDigits();
 void setResultPrecision();
 void resetSettingsToDefaults();
@@ -122,18 +121,6 @@ bool validStandardDigits(string input)
 				return false;
 			}
 		}
-	}
-	return true;
-}
-
-bool isInteger(string input)
-{
-	if (input.empty())
-		return false;
-	for (char ch : input)
-	{
-		if (!std::isdigit(ch))
-			return false;
 	}
 	return true;
 }

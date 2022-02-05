@@ -26,6 +26,8 @@ struct Vectors
 };
 
 std::string changeBase(std::string, std::string, std::string);
+bool isInteger(std::string);
+void assertInteger(std::string);
 int charToInt(char);
 Vectors splitNumeralsString(const std::string);
 void strToInts(const std::string, std::vector<int>&, int&, int&);

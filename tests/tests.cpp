@@ -109,7 +109,12 @@ namespace tests
 
         TEST_METHOD(NonStandardDigitUsed)
         {
-            equal("5", "7", "32$4", "Error: non-standard digit used: $");
+            equal("5", "7", "32$4", "Error: non-standard digit used: \"$\"");
+        }
+
+        TEST_METHOD(NonNumeralsInNumeralsOnlyForm)
+        {
+            equal("16", "10", "3,A,3.5", "Error: expected only numerals but received \"A\"");
         }
 
         TEST_METHOD(UnaryToDecimal)
