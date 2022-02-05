@@ -131,6 +131,27 @@ namespace tests
         {
             equal("16", "16", "12.15,", "c.f");
         }
+
+        TEST_METHOD(IsInteger)
+        {
+            Assert::IsTrue(isInteger("387398"));
+        }
+
+        TEST_METHOD(IsNotInteger)
+        {
+            Assert::IsFalse(isInteger("387.398"));
+        }
+        
+        TEST_METHOD(AssertInteger)
+        {
+            assertInteger("37983");
+        }
+
+        TEST_METHOD(AssertNotInteger)
+        {
+            auto f = [] { assertInteger("379B3"); };
+            Assert::ExpectException<std::runtime_error>(f);
+        }
     };
 
     TEST_CLASS(main)
@@ -151,16 +172,6 @@ namespace tests
             removeSpaces(actual);
             std::string expected = "spaces";
             Assert::AreEqual(expected, actual);
-        }
-
-        TEST_METHOD(IsInteger)
-        {
-            Assert::IsTrue(isInteger("387398"));
-        }
-
-        TEST_METHOD(IsNotInteger)
-        {
-            Assert::IsFalse(isInteger("387.398"));
         }
 
         TEST_METHOD(ValidStandardDigits)
