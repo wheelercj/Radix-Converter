@@ -583,7 +583,7 @@ std::string Number::toString()
 	numeralsOnly = false;
 	for (int i = 0; i < whole.size(); i++)
 	{
-		if (whole[i].getBase() >= settings::standardDigits.size())
+		if (whole[i].getBase() > settings::standardDigits.size())
 		{
 			numeralsOnly = true;
 			break;
@@ -593,7 +593,7 @@ std::string Number::toString()
 	{
 		for (int i = 0; i < fraction.size(); i++)
 		{
-			if (fraction[i].getBase() >= settings::standardDigits.size())
+			if (fraction[i].getBase() > settings::standardDigits.size())
 			{
 				numeralsOnly = true;
 				break;
