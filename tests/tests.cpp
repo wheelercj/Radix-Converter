@@ -17,6 +17,31 @@ namespace tests
     {
     public:
 
+        TEST_METHOD(InvalidEndBase)
+        {
+            equal("10", "0", "9", "Error: invalid base entered.");
+        }
+
+        TEST_METHOD(InvalidStartBase)
+        {
+            equal("0", "10", "9", "Error: invalid base entered.");
+        }
+
+        TEST_METHOD(TooManyPeriods)
+        {
+            equal("10", "11", "5.5.5", "Error: too many periods entered.");
+        }
+
+        TEST_METHOD(NonStandardDigitUsed)
+        {
+            equal("5", "7", "32$4", "Error: non-standard digit used: \"$\"");
+        }
+
+        TEST_METHOD(NonNumeralsInNumeralsOnlyForm)
+        {
+            equal("16", "10", "3,A,3.5", "Error: expected only numerals but received \"A\"");
+        }
+
         TEST_METHOD(DecimalToDecimal)
         {
             equal("10", "10", "1234", "1234");
@@ -100,31 +125,6 @@ namespace tests
         TEST_METHOD(LongDecimalToBinary)
         {
             equal("10", "2", "18446744073709551615", "1111111111111111111111111111111111111111111111111111111111111111");
-        }
-
-        TEST_METHOD(InvalidEndBase)
-        {
-            equal("10", "0", "9", "Error: invalid base entered.");
-        }
-
-        TEST_METHOD(InvalidStartBase)
-        {
-            equal("0", "10", "9", "Error: invalid base entered.");
-        }
-
-        TEST_METHOD(TooManyPeriods)
-        {
-            equal("10", "11", "5.5.5", "Error: too many periods entered.");
-        }
-
-        TEST_METHOD(NonStandardDigitUsed)
-        {
-            equal("5", "7", "32$4", "Error: non-standard digit used: \"$\"");
-        }
-
-        TEST_METHOD(NonNumeralsInNumeralsOnlyForm)
-        {
-            equal("16", "10", "3,A,3.5", "Error: expected only numerals but received \"A\"");
         }
 
         TEST_METHOD(UnaryToDecimal)
