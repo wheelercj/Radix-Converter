@@ -303,7 +303,7 @@ unsigned long long Whole::toDecimal() // should have no effect on decimal number
 	unsigned long long decimalNum = 0;
 
 	for (int i = 0; i < part.size(); i++)
-		decimalNum += part[i].get() * (long long)pow(part[i].getBase(), i);
+		decimalNum += part[i].get() * (unsigned long long)pow(part[i].getBase(), i);
 
 	return decimalNum;
 }

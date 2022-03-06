@@ -92,6 +92,16 @@ namespace tests
             equal("64", "36", "35,12", "1qk");
         }
 
+        TEST_METHOD(LongBinaryToDecimal)
+        {
+            equal("2", "10", "1111111111111111111111111111111111111111111111111111111111111111", "18446744073709551615");
+        }
+
+        TEST_METHOD(LongDecimalToBinary)
+        {
+            equal("10", "2", "18446744073709551615", "1111111111111111111111111111111111111111111111111111111111111111");
+        }
+
         TEST_METHOD(InvalidEndBase)
         {
             equal("10", "0", "9", "Error: invalid base entered.");
