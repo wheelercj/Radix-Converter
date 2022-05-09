@@ -21,7 +21,7 @@ or negative fractional numbers of mixed bases:
 - supports fractional numbers
 - allows the user to choose the symbol that represents each value
 - supports numbers of mixed bases (each digit of a number can be in a different base)
-- supports both standard form and [numerals-only form](https://github.com/wheelercj/Radix-Converter/tree/master#what-is-numerals-only-form)
+- supports both standard form and [numerals-only form](https://github.com/wheelercj/Radix-Converter/tree/main#what-is-numerals-only-form)
 - an easy-to-use interface: just enter the starting base, target base, and starting number
 - high-precision approximations when necessary with adjustable precision set to 75 digits by default
 - verified by automated tests
