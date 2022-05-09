@@ -1,4 +1,5 @@
 settings.txt
+*.cd
 *.exe
 *.sln
 *.vcxproj
